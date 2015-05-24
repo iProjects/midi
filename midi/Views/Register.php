@@ -11,8 +11,8 @@
         <link href="../Images/Dollar.ico" rel="shortcut icon" type="image/x-icon" />
         <link rel="stylesheet" href="../Content/Site.css" type="text/css" />
         <script src="../Scripts/jquery-2.0.3.js" type="text/javascript"></script>
-        <script src="../Scripts/fanikiwa.js"></script> 
-
+        <script src="../Scripts/Utils.js"></script> 
+        <script src="../Scripts/Register.js"></script> 
 
     </head>
 
@@ -42,7 +42,7 @@
 
 
 
-        <div id="body">
+        <div id="body"   onload="EnableButtons();">
 
 
             <section class="content-wrapper main-content clear-fix">
@@ -54,7 +54,8 @@
                     <h2 class="page-title">Register</h2>
                 </hgroup>
 
-                <form action="../DAL/Register.php" method="post">
+<!--                <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">-->
+                <form action="../DAL/Register.php" method="post"  autocomplete="on" onsubmit="return validateFormOnSubmit();" >
 
                     <fieldset>
                         <legend>Register</legend>
@@ -83,13 +84,22 @@
                             </div>
                         </article>
 
+<!--                        <div style="float: left; clear: both">
+                            <input id="btnRegister" type="submit"
+                                   value="Loading please wait..."
+                                   style="cursor: wait; background-color: grey; color: red;"
+                                   disabled/> Already Registered Click <a id="btnLogin"
+                                   href="../Views/Login.php" style="cursor: pointer;">Here </a> To
+                            Login
+                        </div>-->
 
-                        <div style="float: left; clear: both">
 
-                            <input id="btnRegister" type="submit" value="Register"/>  Already Registered Click <a id="btnLogin"
-                                                                                                                  href="../Views/Login.php" style="cursor: pointer;">Here
-                            </a> To Login
-                        </div>
+                                                <div style="float: left; clear: both">
+                        
+                                                    <input id="btnRegister" type="submit" value="Register"/>  Already Registered Click <a id="btnLogin"
+                                                                                                                                          href="../Views/Login.php" style="cursor: pointer;">Here
+                                                    </a> To Login
+                                                </div>
 
 
                     </fieldset>
@@ -114,23 +124,15 @@
 
             <hr />
 
-            <div class="content-wrapper">
-                <div class="float-left"></div>
+            <div style="margin-left: 30%;">
+                <span style="float: left; padding-left: 2px; padding-right: 2px;">Copyright
+                    &copy;</span> <span id="footerdate"
+                                    style="float: left; padding-left: 2px; padding-right: 2px;"></span>
+                <span style="float: left; padding-left: 2px; padding-right: 2px;">
+                    Software Providers Limited.</span> <span
+                    style="float: left; padding-left: 2px; padding-right: 2px;">All
+                    Rights Reserved.</span>
             </div>
-
-
-            <div class="content-wrapper clearboth">
-                <div class="float-left">
-                    <p style="font-size: 15px">Copyright &copy; Software Providers
-                        Limited. All Rights Reserved.</p>
-                </div>
-            </div>
-
-
-            <div class="content-wrapper clearboth">
-                <div></div>
-            </div>
-
 
         </footer>
 
@@ -138,21 +140,59 @@
 
 
         <script type="text/javascript">
-            $('#btnRegister').click(function () {
-                var this_hre
-                f = $(this).attr('href');
-                $.ajax({
-                    url: this_href,
-                    type: 'post',
-                    cache: false,
-                    success: function (data)
-                    {
-                        $('#successmessage').html(data);
-                    }
-                });
-//                return false;
-                return true;
+
+            $(document).ready(function () {
+                $("#btnRegister").removeAttr('style');
+                $("#btnRegister").removeAttr('disabled');
+                $("#btnRegister").val('Register');
+                EnableButtons();
             });
+
+            function EnableButtons() {
+                $("#btnRegister").removeAttr('style');
+                $("#btnRegister").removeAttr('disabled');
+                $("#btnRegister").val('Register');
+                var btnRegister = document.querySelector('#btnRegister');
+                btnRegister.addEventListener('click', function () {
+                    midi.userendpoint.register();
+                });
+                var txtEmail = document.querySelector('#txtEmail');
+                txtEmail.addEventListener('change', function () {
+                    var email = document.getElementById('txtEmail').value;
+                    midi.userendpoint.isEmailValid(email);
+                });
+            }
+            ;
+
+            funciton
+            validateFormOnSubmit()
+            {
+                //do client side validation 
+                if (true == validation) {
+                    //do the `ajax` call with serialized form data
+                    $('#btnRegister').click(function () {
+                        var this_hre
+                        f = $(this).attr('href');
+                        $.ajax({
+                            url: this_href,
+                            type: 'post',
+                            cache: false,
+                            success: function (data)
+                            {
+                                $('#successmessage').html(data);
+                            }
+                        });
+//                return false;
+                        return true;
+                    });
+                }
+                else {
+                    //show error 
+                }
+                return false; // because we want to submit only through `ajax`, so stopping original form submit.
+            }
+
+
         </script>
 
 

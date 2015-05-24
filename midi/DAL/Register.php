@@ -1,16 +1,17 @@
 
 <?php
 
-//include ("../DAL/MySqlConnection.php");
-include ("../DAL/SqlServerConnection.php");
+include ("../DAL/MySqlConnection.php");
+//include ("../DAL/SqlServerConnection.php");
 
 try {
     $msg . "<br/>" . "validating...";
     $Email = $_POST['txtEmail'];
     $Password = $_POST['txtPassword'];
     $Telephone = $_POST['txtTelephone'];
-    $conn = new PDO("sqlsrv:Server=$host;Database =$db", $user, $pwd);
-    $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    
+//    $conn = new PDO("sqlsrv:Server=$host;Database =$db", $user, $pwd);
+//    $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
     $sql_insert = "INSERT INTO midiusers(email, password, telephone) VALUES (?,?,?)";
     $msg . "<br/>" . "calling conn to prepare insert statement...";
     $stmt = $conn->prepare($sql_insert);
