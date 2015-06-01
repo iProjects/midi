@@ -1,7 +1,7 @@
-var midi = midi || {};
+var fanikiwa = fanikiwa || {};
 
 function GETROOT() {
-    var ROOT = 'https://1-dot-midiweb.appspot.com/_ah/api';
+    var ROOT = 'https://1-dot-fanikiwaweb.appspot.com/_ah/api';
     if (window.location.hostname == 'localhost')
         ROOT = 'http://localhost:8888/_ah/api';
     return ROOT;
@@ -9,19 +9,19 @@ function GETROOT() {
 
 function LogOff() {
     sessionStorage.removeItem("loggedinuser");
-    window.location.href = "../Views/Login.html";
+    window.location.href = "/Views/Account/Login.html";
 }
 
 function ManageProfile() {
-    window.location.href = "../Views/EditProfile.html";
+    window.location.href = "/Views/Account/EditProfile.html";
 }
 
 function LogIn() {
-    window.location.href = "../Views/Login.html";
+    window.location.href = "/Views/Account/Login.html";
 }
 
 function Register() {
-    window.location.href = "../Views/Register.html";
+    window.location.href = "/Views/Account/Register.html";
 }
 
 Number.prototype.formatMoney = function (c, d, t) {
@@ -116,15 +116,18 @@ function setTime() {
     var DayNight = "PM"
     if (hours < 12)
         DayNight = "AM";
+    month = checkTime(month);
+    date = checkTime(date);
+    hours = checkTime(hours);
     minutes = checkTime(minutes);
     seconds = checkTime(seconds);
-//    $('#footerdate').html(year);
-     $('#footerdate').html(
-     year + "-" + month + "-" + date + " " + hours + ":" + minutes
-     + ":" + seconds + ":" + milliseconds + " " + DayNight);
+    //    $('#footerdate').html(year);
+    $('#footerdate').html(
+            year + "-" + month + "-" + date + " " + hours + ":" + minutes
+            + ":" + seconds + ":" + milliseconds + " " + DayNight);
     var t = setTimeout(function () {
         setTime()
-    }, 0.5);
+    }, 0.5); 
 }
 
 function checkTime(i) {

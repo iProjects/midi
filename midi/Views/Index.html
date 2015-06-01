@@ -1,0 +1,43 @@
+<html>
+    <head><title>Database access test</title>
+        <script src="/Scripts/jquery-2.0.3"></script>
+        <script src="Class-0.0.2.min.js"></script>
+        <script src="/Scripts/jquery.dataTables.min.js"></script>
+         <script src="/Scripts/Utils.js"></script>
+          <script src="/Scripts/MainMenu.js"></script>
+           <script src="/Scripts/dbwrapper.js"></script>
+        <script>
+            var dbw = null;
+
+            function updateAuthorsTable() {
+                dbw.getAll(function (data) {
+                    $('#authors').html('<table id="authors"><tr><td>ID</td> <td>Author</td></tr></table>');
+                    $(data).each(function (ind, author) {
+                        $('#authors tr:last').after('<tr><td>' + author.id + '</td> <td>' + author.name + '</td></tr>');
+                    });
+                });
+            }
+
+            $(document).ready(function () {
+                dbw = new DbWrapper();
+                dbw.table = 'authors';
+
+                updateAuthorsTable();
+
+                $('#addbutton').click(function () {
+                    dbw.insertObject({name: $('#authorname').val()},
+                    function (data) {
+                        updateAuthorsTable();
+                    });
+                });
+            });
+        </script>
+    </head>
+    <body>
+        <table id="authors">
+        </table>
+        <h3>Add A New Author</h3>
+        Name: <input type="text" id="authorname">
+        <input type="submit" value="Add" id="addbutton">
+    </body>
+</html>
