@@ -1,223 +1,93 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 
 <html lang="en">
 
-<head>
+    <head>
 
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width" />
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-<title>Edit Customer | Fanikiwa - Administrator</title>
-<link href="/Images/Dollar.ico" rel="shortcut icon" type="image/x-icon" />
-<link rel="stylesheet" href="/Content/Site.css" type="text/css" />
-<script src="/Scripts/jquery-2.0.3.js" type="text/javascript"></script>
-<script src="/Scripts/MainMenu.js"></script>
-<script src="/Scripts/fanikiwa.js"></script>
-<script src="/Scripts/CustomScripts.js" type="text/javascript"></script>
-<script src="/Scripts/EditCustomer.js"></script>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width" />
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <title>Edit Customer | Maasai Integrated Development Initiatives</title>
+        <link href="../../Images/Dollar.ico" rel="shortcut icon" type="image/x-icon" />
+        <link href="../../Content/Site.css" type="text/css"  rel="stylesheet" />
+        <script src="../../Scripts/jquery-2.0.3.js" type="text/javascript"></script>
+        <script src="../../Scripts/MainMenu.js"></script> 
+        <script src="../../Scripts/loginutil.js"></script>
+        <script src="../../Scripts/Utils.js"></script> 
 
 
-</head>
+    </head>
 
 
-<body>
+    <body>
 
-	<header>
+        <header>
 
-		<div id="div-site-title">
+            <div id="div-site-title">
 
-			<div class="site-title">
-				<span title="Fanikiwa"> Fanikiwa </span>
-			</div>
+                <div class="site-title">
+                    <span title="Maasai Integrated Development Initiatives(MIDI)">Maasai Integrated Development Initiatives(MIDI)</span>
+                </div>
 
-			<div class="site-title">
-				<span title="Administrator">Administrator</span>
-			</div>
+            </div>
 
-		</div>
+            <div id="MainMenu"></div>
+            <div id="SubMenu"></div>
 
-		<div id="MainMenu"></div>
-		<div id="SubMenu"></div>
 
+            <div id="div-login">
+                <section id="login">
+                    <text> Welcome To MIDI, <a id="lnkloggedinuser"
+                                               style="cursor: pointer;" href="#" onclick="ManageProfile()"
+                                               title="Manage Profile"></a> <a id="lnklogoff"
+                                               style="cursor: pointer;" href="#" onclick="LogOff()"
+                                               title="Log Off">Log off</a> </text>
+                </section>
+            </div>
 
-		<div id="div-login">
-			<section id="login">
-				<text> Welcome To Fanikiwa, <a id="lnkloggedinuser"
-					style="cursor: pointer;" href="#" onclick="ManageProfile()"
-					title="Manage Profile"></a> <a id="lnklogoff"
-					style="cursor: pointer;" href="#" onclick="LogOff()"
-					title="Log Off">Log off</a> </text>
-			</section>
-		</div>
+        </header>
 
-	</header>
 
 
 
+        <div id="body">
 
-	<div id="body">
 
+            <section class="content-wrapper main-content clear-fix">
 
-		<section class="content-wrapper main-content clear-fix">
+                <div id="error-display-div" class="displaynone"></div>
 
-			<div id="error-display-div" class="displaynone"></div>
 
 
-			<hgroup class="title">
-				<h2 class="page-title">Edit Customer</h2>
-			</hgroup>
+            </section>
 
-			<div style="float: left; clear: both">
-				<input id="btnUpdate" type="submit" value="Loading please wait..."
-					style="cursor: wait; background-color: grey; color: red;" disabled />
-				<input type="button" value="Back"
-					onclick="window.history.go(-1); return false;" />
-			</div>
 
-			<div id="apiResults" style="float: left; clear: both"></div>
-			<div id="successmessage" style="float: left; clear: both"></div>
-			<div id="errormessage" style="float: left; clear: both"></div>
+        </div>
 
-			<div style="float: left; clear: both">
+        <footer>
 
-				<form action="javascript:void(0);">
+            <hr />
 
-					<fieldset>
-						<legend>Edit Customer</legend>
+            <div id="div-runningtime">
+                <span id="runningtime"></span> 
+                <span id="runningdaynighttime"></span> 
+            </div>
 
-						<div id="column-div" class="clearboth">
+            <div id="div-copyright">
+                <span id="copyright">Copyright &copy;</span> <span id="footerdate"></span>
+                <span id="companyname"> KDBetting Limited.</span> <span
+                    id="rightsreserved">All Rights Reserved.</span>
+            </div> 
 
-							<article class="col1">
-								<div class="pad">
+        </footer>
 
-									<div>
-										<label for="txtcustomerId">ID</label> <input
-											id="txtcustomerId" placeholder="ID" type="number" min="0"
-											disabled></input>
-									</div>
+        <script type="text/javascript">
 
-									<div>
-										<label for="txtname">Name</label> <input id="txtname"
-											placeholder="Name" type="text" autocomplete autofocus></input>
-									</div>
+        </script>
 
-									<div>
-										<label for="txtemail">Email</label> <input id="txtemail"
-											placeholder="Email" type="text" autocomplete></input>
-									</div>
 
-									<div>
-										<label for="txttelephone">Telephone</label> <input
-											id="txttelephone" placeholder="Telephone" type="text"
-											autocomplete></input>
-									</div>
 
-									<div>
-										<label for="txtaddress">Address</label> <input id="txtaddress"
-											placeholder="Address" type="text" autocomplete></input>
-									</div>
-
-									<div>
-										<label for="txtcustomerNo">Customer No</label> <input
-											id="txtcustomerNo" placeholder="Customer No" type="text"
-											autocomplete></input>
-									</div>
-
-									<div>
-										<label for="cboorganization">Organization</label><select
-											id="cboorganization" style="width: 95%;">
-											<option value="" selected="selected">(Select
-												Organization)</option>
-										</select>
-									</div>
-
-								</div>
-							</article>
-
-							<article class="col2">
-								<div class="pad">
-
-									<div>
-										<label for="txtbillToName">Bill To Name</label> <input
-											id="txtbillToName" placeholder="Bill To Name" type="text"
-											autocomplete></input>
-									</div>
-
-									<div>
-										<label for="txtbillToEmail">Bill To Email</label> <input
-											id="txtbillToEmail" placeholder="Bill To Email" type="text"
-											autocomplete></input>
-									</div>
-
-									<div>
-										<label for="txtbillToTelephone">Bill To Telephone</label> <input
-											id="txtbillToTelephone" placeholder="Bill To Telephone"
-											type="text" autocomplete></input>
-									</div>
-
-									<div>
-										<label for="txtbillToAddress">Bill To Address</label> <input
-											id="txtbillToAddress" placeholder="Bill To Address"
-											type="text" autocomplete></input>
-									</div>
-
-									<div>
-										<label for="txtbranch">Branch</label> <input id="txtbranch"
-											placeholder="Branch" type="text" autocomplete></input>
-									</div>
-
-									<div>
-										<input id="dtpcreatedDate" placeholder="Created Date"
-											type="hidden"></input>
-									</div>
-
-								</div>
-							</article>
-
-						</div>
-
-					</fieldset>
-
-				</form>
-
-			</div>
-
-		</section>
-
-
-	</div>
-
-
-
-	<footer>
-
-		<hr />
-
-		<div style="margin-left: 30%;">
-			<span style="float: left; padding-left: 2px; padding-right: 2px;">Copyright
-				&copy;</span> <span id="footerdate"
-				style="float: left; padding-left: 2px; padding-right: 2px;"></span>
-			<span style="float: left; padding-left: 2px; padding-right: 2px;">
-				Software Providers Limited.</span> <span
-				style="float: left; padding-left: 2px; padding-right: 2px;">All
-				Rights Reserved.</span>
-		</div>
-
-	</footer>
-
-
-
-	<script type="text/javascript">
-	function init() {
-		fanikiwa.customerendpoint.editcustomer.init(GETROOT());
-	}
-</script>
-
-	<script src="https://apis.google.com/js/client.js?onload=init"></script>
-
-
-
-</body>
+    </body>
 
 
 </html>

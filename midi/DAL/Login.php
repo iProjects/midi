@@ -1,29 +1,78 @@
 
 <?php
 
-include ("../DAL/SqlServerConnection.php");
+include ("../DAL/MySqlConnection.php");
+//include ("../DAL/SqlServerConnection.php");
 
 try {
-    $msg . "<br/>" . "validating...";
-    $Email = $_POST['txtEmail'];
-    $Password = $_POST['txtPassword']; 
 
-// Insert data
-    $sql_insert = "INSERT INTO spusers(email, password) VALUES (?,?)";
-    $msg . "<br/>" . "calling conn to prepare insert statement...";
-    $stmt = $conn->prepare($sql_insert);
-    $stmt->bindValue(1, $Email);
-    $stmt->bindValue(2, $Password); 
-    $msg . "<br/>" . "calling execute...";
+    if (isset($_POST['txtemail'])) {
+        $email = trim(stripslashes($_POST['txtemail']));
+    }
+    if (isset($_POST['txtpwd'])) {
+        $pwd = trim(stripslashes($_POST['txtpwd']));
+    }
+
+    $sql_select = "SELECT * FROM midiusers WHERE email = ? and pwd = ?";
+
+    $stmt = $conn->prepare($sql_select);
+
+    $stmt->bindValue(1, $email);
+    $stmt->bindValue(2, $pwd);
+
     $stmt->execute();
-    $msg . "<br/>" . "closing cursor...";
-    $stmt->closeCursor();
+
+    $founduser = $stmt->fetchAll();
+
+    if ($founduser) {
+        $_SESSION['loginflag'] = true;
+
+        $_SESSION['loggedinuser'] = $email;
+
+        setcookie("logincookie", $email, time() + (3600 * 2));
+
+        $stmt->closeCursor();
+
+        CloseConnection();
+
+        header("Location: ../Views/Home/Index.php");
+    } else {
+        unset($_SESSION["loginflag"]);
+
+        unset($_SESSION["loggedinuser"]);
+
+        session_destroy();
+
+        $_SESSION = array();
+
+        setcookie("logincookie", "", time() + (3600 * -1));
+
+        $stmt->closeCursor();
+
+        CloseConnection();
+
+        $errormsg .= 'Incorrect Credentials. Check your Email and Password.';
+        $errormsg .= '<br/><input type="button" value="Back" onclick="window.history.go(-1); return false;" />';
+
+        echo $errormsg;
+
+//        header("Location: ../Views/Account/Login.php");
+    }
 } catch (Exception $e) {
-    $msg . $e->getMessage();
-    if ($e->getTraceAsString() != NULL)
-        $msg . "<br/>" . $e->getTraceAsString();
+    $errormsg .= $e->getMessage();
+    if ($e->getTraceAsString() != NULL) {
+        $errormsg .= "<br/>" . $e->getTraceAsString();
+    }
+
+    if (error_get_last() != NULL) {
+        $errormsg .= "<br/>" . error_get_last();
+    }
+
+    $errormsg .= '<br/><input type="button" value="Back" onclick="window.history.go(-1); return false;" />';
+
+    echo $errormsg;
+
+//  header("Location: ../Views/Account/Login.php");
 }
-echo($msg);
-//header('Location: ../Views/Login.php');
 ?>
  

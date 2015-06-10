@@ -2,19 +2,19 @@ var midi = midi || {};
 
 function LogOff() {
     sessionStorage.removeItem("loggedinuser");
-    window.location.href = "../../Views/Account/Login.html";
+    window.location.href = "../../Views/Account/Login.php";
 }
 
 function ManageProfile() {
-    window.location.href = "../../Views/Account/EditProfile.html";
+    window.location.href = "../../Views/Account/EditProfile.php";
 }
 
 function LogIn() {
-    window.location.href = "../../Views/Account/Login.html";
+    window.location.href = "../../Views/Account/Login.php";
 }
 
 function Register() {
-    window.location.href = "../../Views/Account/Register.html";
+    window.location.href = "../../Views/Account/Register.php";
 }
 
 Number.prototype.formatMoney = function (c, d, t) {

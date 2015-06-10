@@ -1,66 +1,62 @@
 
 <?php
 
-header("Access-Control-Allow-Origin: {$_SERVER['HTTP_ORIGIN']}");
-header('Access-Control-Allow-Credentials: true');
-header('Access-Control-Max-Age: 86400');    // cache for 1 day
-header("Access-Control-Allow-Methods: GET, POST, OPTIONS");
-header('Access-Control-Allow-Headers: Authorization, X-Requested-With');
-header("Access-Control-Allow-Headers: {$_SERVER['HTTP_ACCESS_CONTROL_REQUEST_HEADERS']}");
-header('P3P: CP="NON DSP LAW CUR ADM DEV TAI PSA PSD HIS OUR DEL IND UNI PUR COM NAV INT DEM CNT STA POL HEA PRE LOC IVD SAM IVA OTC"');
-
-//include ("../DAL/MySqlConnection.php");
+include ("../DAL/MySqlConnection.php");
 //include ("../DAL/SqlServerConnection.php");
 
 try {
-    $msg .= "<br/>" . "validating...";
 
-//    $user = file_get_contents('php://input');
-//    $user_array = json_decode($user, true);
+    if (isset($_POST['txtemail'])) {
+        $email = trim(stripslashes($_POST['txtemail']));
+    }
+    if (isset($_POST['txtpwd'])) {
+        $pwd = trim(stripslashes($_POST['txtpwd']));
+    }
+    if (isset($_POST['txttelephone'])) {
+        $telephone = trim(stripslashes($_POST['txttelephone']));
+    }
+    if (isset($_POST['txtusertype'])) {
+        $usertype = trim(stripslashes($_POST['txtusertype']));
+    }
+    if (isset($_POST['txtstatus'])) {
+        $status = trim(stripslashes($_POST['txtstatus']));
+    }
+    if (isset($_POST['txtrole'])) {
+        $role = trim(stripslashes($_POST['txtrole']));
+    }
 
-    $email = $_POST['email'];
-    $password = $_POST['password'];
-    $telephone = $_POST['telephone'];
-
-//    $email = $user_array['email'];
-//    $password = $user_array['password'];
-//    $telephone = $user_array['telephone'];
-
-    
-    $conn = new PDO("mysql:host=$host;port=$port;dbname=$db", $user, $pwd);
-    $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-
-    $sql_insert = "INSERT INTO midiusers(email, pwd, telephone) VALUES (?,?,?)";
-
-    $msg .= "<br/>" . "preparing insert statement...";
+    $sql_insert = "INSERT INTO midiusers(email, pwd, telephone, usertype, status, role) VALUES (?,?,?,?,?,?)";
 
     $stmt = $conn->prepare($sql_insert);
 
     $stmt->bindValue(1, $email);
-    $stmt->bindValue(2, $password);
+    $stmt->bindValue(2, $pwd);
     $stmt->bindValue(3, $telephone);
-
-    $msg .= "<br/>" . "calling execute...";
+    $stmt->bindValue(4, $usertype);
+    $stmt->bindValue(5, $status);
+    $stmt->bindValue(6, $role);
 
     $stmt->execute();
-    print $conn->lastInsertId() . '<br />';
-
-    $msg .= "<br/>" . "closing cursor...";
 
     $stmt->closeCursor();
 
-    $msg .= "<br/>" . "closing connection...";
     CloseConnection();
+    
+    header('Location: ../Views/Account/Login.php');
+    
 } catch (Exception $e) {
-    $msg .= "<br/>" . $e->getMessage();
-    if ($e->getTraceAsString() != NULL)
-        $msg .= "<br/>" . $e->getTraceAsString();
-}
+    $errormsg .= $e->getMessage();
+    if ($e->getTraceAsString() != NULL) {
+        $errormsg .= "<br/>" . $e->getTraceAsString();
+    }
 
-$msg .= error_get_last();
-//header('Location: ../Views/Login.php');
-print_r($msg);
-print_r(error_get_last());
-echo $msg;
+    if (error_get_last() != NULL) {
+        $errormsg .= "<br/>" . error_get_last();
+    }
+
+    $errormsg .= '<br/><input type="button" value="Back" onclick="window.history.go(-1); return false;" />';
+
+    echo $errormsg;
+}
 ?>
  

@@ -1,40 +1,42 @@
 <?php
- include ("../DAL/Util.php");
-// Start the session
-session_start();
 
-// DB connection info
-$host = "localhost";
+$host = "192.168.0.101";
 $port = "3306";
-$user = "root";
-$pwd = "";
 $db = "mididb";
+$user = "sa";
+$pwd = "sa";
 $msg = "";
 
 try {
-    $msg . "establishing connection...<br/>";
 
     $conn = new PDO("mysql:host=$host;port=$port;dbname=$db", $user, $pwd);
     $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
     if ($conn) {
-        $msg .= "connection established successful...<br/>";
-        $_SESSION["conn"] = $conn;
         return $conn;
     } else {
-        $msg .= "connection failed...</br/>";
+        $msg = "connection failed...</br/>";
         $msg .= error_get_last();
+        echo($msg);
         return $msg;
     }
 } catch (Exception $e) {
-    $msg .= $e->getMessage();
-    if ($e->getTraceAsString() != NULL)
-        $msg .= "<br/>" . $e->getTraceAsString();
-    return $msg;
+    $errormsg .= $e->getMessage();
+    if ($e->getTraceAsString() != NULL) {
+        $errormsg .= "<br/>" . $e->getTraceAsString();
+    }
+
+    if (error_get_last() != NULL) {
+        $errormsg .= "<br/>" . error_get_last();
+    }
+
+    $errormsg .= '<br/><input type="button" value="Back" onclick="window.history.go(-1); return false;" />';
+
+    echo $errormsg;
 }
 
 function CloseConnection() {
     $conn = null;
 }
-echo $msg;
+
 ?>

@@ -1,28 +1,37 @@
 <?php
 
-// DB connection info
 $host = "sbserver-pc\sqlexpress";
+$db = "mididb";
 $user = "sa";
 $pwd = "sa";
-$db = "mididb";
 $msg = "";
 
 try {
+
     $conn = new PDO("sqlsrv:Server=$host;Database =$db", $user, $pwd);
     $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-    var_dump($conn);
+
     if ($conn) {
-        $msg = "connection established successful...";
-        echo($msg);
+        return $conn;
     } else {
-        $msg = "connection failed...";
+        $msg = "connection failed...</br/>";
+        $msg .= error_get_last();
         echo($msg);
+        return $msg;
     }
 } catch (Exception $e) {
-    $msg = $e->getMessage();
-    if ($e->getTraceAsString() != NULL)
-        $msg . "<br/>" . $e->getTraceAsString();
-    echo($msg);
+    $errormsg .= $e->getMessage();
+    if ($e->getTraceAsString() != NULL) {
+        $errormsg .= "<br/>" . $e->getTraceAsString();
+    }
+
+    if (error_get_last() != NULL) {
+        $errormsg .= "<br/>" . error_get_last();
+    }
+
+    $errormsg .= '<br/><input type="button" value="Back" onclick="window.history.go(-1); return false;" />';
+
+    echo $errormsg;
 }
 
 function CloseConnection() {

@@ -1,4 +1,4 @@
-﻿html 
+html 
 {
 background-color: #fff;
 margin: 0px;
@@ -34,7 +34,7 @@ color: white;
 }
 #div-site-title
 {  
-height: 4.5em;
+height: 7em;
 width: 13em;
 background: -webkit-gradient(linear, left top, left bottom, color-stop(0, #125182), color-stop(.5, #1269ab), color-stop(.51, #004375), to(#00345b));  
 float: left;
@@ -91,7 +91,7 @@ color: black;
 #MainMenu
 {       
 background: -webkit-gradient(linear, left top, left bottom, color-stop(0, #125182), color-stop(.5, #1269ab), color-stop(.51, #004375), to(#00345b));
-height: 4.5em;
+height: 7em;
 width: 60em; 
 float: left;
 z-index: 4970;
@@ -109,7 +109,7 @@ position: fixed;
 padding: 0em;  
 margin-left: 11em;
 margin-right: 0em; 
-margin-top: 1.8em;
+margin-top: 3.5em;
 margin-bottom: 0em; 
 clear: both; 
 overflow: hidden;
@@ -140,8 +140,8 @@ overflow: hidden;
 float: left;  
 padding-left: 2px;
 padding-right: 2px;
-padding-top: 0px; 
-padding-bottom: 0px; 
+padding-top: 2px; 
+padding-bottom: 2px; 
 margin-bottom: 0em;
 margin-top: 0em;
  
@@ -174,7 +174,7 @@ border: 0px solid black;
 #div-login
 { 
 width: auto;
-height: 4.5em;
+height: 7em;
 background: -webkit-gradient(linear, left top, left bottom, color-stop(0, #125182), color-stop(.5, #1269ab), color-stop(.51, #004375), to(#00345b));
 float: right;
 z-index: 4950;
@@ -665,7 +665,7 @@ padding-top: 50px;
 { 
 padding-left: 14%;
 padding-right: 5%;
-padding-top: 3%;
+padding-top: 6%;
 }
  
 .content-wrapper 
@@ -2130,3 +2130,4 @@ overflow: hidden;
 width: 300px;
 word-wrap: break-word;
 }
+ 

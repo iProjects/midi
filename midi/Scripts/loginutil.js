@@ -1,5 +1,4 @@
-﻿
-        $(document)
+$(document)
         .ready(
                 function () {
                     var loggedinuser = JSON.parse(sessionStorage
@@ -25,6 +24,5 @@
                                         + '</a> To Register </text>');
                         $("#login").html(loginopts.join(" "));
                     }
-
-                    setTime();
+ 
                 });
