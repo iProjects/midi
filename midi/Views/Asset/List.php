@@ -166,8 +166,7 @@
         </footer>
 
         <script type="text/javascript">
-
-
+ 
             function CreateSubMenu() {
                 var SubMenu = [];
                 SubMenu.push('<div class="nav"><ul class="menu">');
@@ -200,6 +199,7 @@
                     closeOnEscape: true,
                     buttons: {
                         "Yes": function () {
+                            $("#apiResults").html('Processing...');
                             $('#form-delete-dialog').submit();
                             $(this).dialog('close');
                         },

@@ -48,21 +48,70 @@
         </header>
 
 
+<div id="body">
 
 
-        <div id="body">
+		<section class="content-wrapper main-content clear-fix">
+
+			<div id="error-display-div" class="displaynone"></div>
 
 
-            <section class="content-wrapper main-content clear-fix">
+			<hgroup class="title">
+				<h2 class="page-title">Create Setting</h2>
+			</hgroup>
 
-                <div id="error-display-div" class="displaynone"></div>
+			<div style="float: left; clear: both">
+				<input id="btnCreate" type="submit" value="Loading please wait..."
+					style="cursor: wait; background-color: grey; color: red;" disabled />
+				<input type="button" value="Back"
+					onclick="window.history.go(-1); return false;" />
+			</div>
+
+			<div id="apiResults" style="float: left; clear: both"></div>
+			<div id="successmessage" style="float: left; clear: both"></div>
+			<div id="errormessage" style="float: left; clear: both"></div>
+
+			<div style="float: left; clear: both">
+
+				<form action="javascript:void(0);">
+
+					<fieldset>
+						<legend>Create Setting</legend>
+
+						<article class="col1">
+							<div class="pad">
+
+								<div>
+									<label for="txtproperty">Property</label> <input autocomplete
+										id="txtproperty" placeholder="Property" type="text" autofocus></input>
+								</div>
+
+								<div>
+									<label for="txtvalue">Value</label> <input autocomplete
+										id="txtvalue" placeholder="Value" type="text"></input>
+								</div>
+
+								<div>
+									<label for="txtgroupName">Group Name</label> <input
+										autocomplete id="txtgroupName" placeholder="Group Name"
+										type="text"></input>
+								</div>
+
+							</div>
+						</article>
+
+					</fieldset>
 
 
+				</form>
 
-            </section>
+			</div>
+
+		</section>
 
 
-        </div>
+	</div>
+
 
         <footer>
 

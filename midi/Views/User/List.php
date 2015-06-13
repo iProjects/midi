@@ -204,6 +204,7 @@
                     closeOnEscape: true,
                     buttons: {
                         "Yes": function () {
+                            $("#apiResults").html('Processing...');
                             $('#form-delete-dialog').submit();
                             $(this).dialog('close');
                         },

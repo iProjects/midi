@@ -49,20 +49,128 @@
 
 
 
-
-        <div id="body">
-
-
-            <section class="content-wrapper main-content clear-fix">
-
-                <div id="error-display-div" class="displaynone"></div>
+<div id="body">
 
 
+		<section class="content-wrapper main-content clear-fix">
 
-            </section>
+			<div id="error-display-div" class="displaynone"></div>
 
 
-        </div>
+			<hgroup class="title">
+				<h2 class="page-title">Create Customer</h2>
+			</hgroup>
+
+			<div style="float: left; clear: both">
+				<input id="btnCreate" type="submit" value="Loading please wait..."
+					style="cursor: wait; background-color: grey; color: red;" disabled />
+				<input type="button" value="Back"
+					onclick="window.history.go(-1); return false;" />
+			</div>
+
+			<div id="apiResults" style="float: left; clear: both"></div>
+			<div id="successmessage" style="float: left; clear: both"></div>
+			<div id="errormessage" style="float: left; clear: both"></div>
+
+			<div style="float: left; clear: both">
+
+				<form action="javascript:void(0);">
+
+					<fieldset>
+						<legend>Create Customer</legend>
+
+						<div id="column-div" class="clearboth">
+
+							<article class="col1">
+								<div class="pad">
+
+									<div>
+										<label for="txtname">Name</label> <input id="txtname"
+											placeholder="Name" type="text" autocomplete autofocus></input>
+									</div>
+
+									<div>
+										<label for="txtemail">Email</label> <input id="txtemail"
+											placeholder="Email" type="text" autocomplete></input>
+									</div>
+
+									<div>
+										<label for="txttelephone">Telephone</label> <input
+											id="txttelephone" placeholder="Telephone" type="text"
+											autocomplete></input>
+									</div>
+
+									<div>
+										<label for="txtaddress">Address</label> <input id="txtaddress"
+											placeholder="Address" type="text" autocomplete></input>
+									</div>
+
+									<div>
+										<label for="txtcustomerNo">Customer No</label> <input
+											id="txtcustomerNo" placeholder="Customer No" type="text"
+											autocomplete></input>
+									</div>
+
+									<div>
+										<label for="cboorganization">Organization</label><select
+											id="cboorganization" style="width: 95%;">
+											<option value="" selected="selected">(Select
+												Organization)</option>
+										</select>
+									</div>
+
+								</div>
+							</article>
+
+							<article class="col2">
+								<div class="pad">
+
+									<div>
+										<label for="txtbillToName">Bill To Name</label> <input
+											id="txtbillToName" placeholder="Bill To Name" type="text"
+											autocomplete></input>
+									</div>
+
+									<div>
+										<label for="txtbillToEmail">Bill To Email</label> <input
+											id="txtbillToEmail" placeholder="Bill To Email" type="text"
+											autocomplete></input>
+									</div>
+
+									<div>
+										<label for="txtbillToTelephone">Bill To Telephone</label> <input
+											id="txtbillToTelephone" placeholder="Bill To Telephone"
+											type="text" autocomplete></input>
+									</div>
+
+									<div>
+										<label for="txtbillToAddress">Bill To Address</label> <input
+											id="txtbillToAddress" placeholder="Bill To Address"
+											type="text" autocomplete></input>
+									</div>
+
+									<div>
+										<label for="txtbranch">Branch</label> <input id="txtbranch"
+											placeholder="Branch" type="text" autocomplete></input>
+									</div>
+
+								</div>
+							</article>
+
+						</div>
+
+					</fieldset>
+
+				</form>
+
+			</div>
+
+		</section>
+
+
+	</div>
+
+
 
         <footer>
 
