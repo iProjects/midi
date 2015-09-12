@@ -1,6 +1,6 @@
 <?php
 
-$host = "sbserver-pc\sqlexpress";
+$host = "localhost";
 $db = "mididb";
 $user = "sa";
 $pwd = "sa";

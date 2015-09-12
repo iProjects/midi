@@ -53,16 +53,63 @@
         <div id="body">
 
 
-            <section class="content-wrapper main-content clear-fix">
+		<section class="content-wrapper main-content clear-fix">
 
-                <div id="error-display-div" class="displaynone"></div>
-
-
-
-            </section>
+			<div id="error-display-div" class="displaynone"></div>
 
 
-        </div>
+			<hgroup class="title">
+				<h2 class="page-title">Create Account Type</h2>
+			</hgroup>
+
+			<div style="float: left; clear: both">
+				<input id="btnCreate" type="submit" value="Loading please wait..."
+					style="cursor: wait; background-color: grey; color: red;" disabled />
+				<input type="button" value="Back"
+					onclick="window.history.go(-1); return false;" />
+			</div>
+
+			<div id="apiResults" style="float: left; clear: both"></div>
+			<div id="successmessage" style="float: left; clear: both"></div>
+			<div id="errormessage" style="float: left; clear: both"></div>
+
+			<div style="float: left; clear: both">
+
+				<form action="javascript:void(0);">
+
+					<fieldset>
+						<legend>Create Account Type</legend>
+
+						<article class="col1">
+							<div class="pad">
+
+								<div>
+									<label for="txtshortCode">Short Code</label> <input
+										id="txtshortCode" placeholder="Short Code" type="text"
+										autocomplete autofocus></input>
+								</div>
+
+								<div>
+									<label for="txtdescription">Description</label> <input
+										id="txtdescription" placeholder="Description" type="text"
+										autocomplete></input>
+								</div>
+
+							</div>
+						</article>
+
+					</fieldset>
+
+
+				</form>
+
+			</div>
+
+		</section>
+
+
+	</div>
+        
 
         <footer>
 

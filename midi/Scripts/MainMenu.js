@@ -7,6 +7,8 @@ function CreateMainMenu() {
             .push('<li><div class="floatleft"><div><a href="../../Views/Account/List.php" style="cursor: pointer;" >Accounts</a></div></div></li>');
     MainMenu
             .push('<li><div class="floatleft"><div><a href="../../Views/AccountType/List.php" style="cursor: pointer;" >Account Types</a></div></div></li>');
+     MainMenu
+            .push('<li><div class="floatleft"><div><a href="../../Views/TransactionType/List.php" style="cursor: pointer;" >Transaction Types</a></div></div></li>');
     MainMenu
             .push('<li><div class="floatleft"><div><a href="../../Views/Coa/List.php" style="cursor: pointer;" >Chart Of Accounts</a></div></div></li>');
     MainMenu

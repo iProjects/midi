@@ -59,7 +59,7 @@
                 </hgroup>
 
                 <div style="float: left; clear: both">
-                    <input id="btnCreate" type="submit" value="Loading please wait..."
+                    <input id="btnCreate" type="submit" value="Loading please wait..." form="form-createasset" 
                            style="cursor: wait; background-color: grey; color: red;" disabled />
                     <input type="button" value="Back"
                            onclick="window.history.go(-1);

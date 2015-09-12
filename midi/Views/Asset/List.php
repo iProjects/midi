@@ -166,8 +166,7 @@
         </footer>
 
         <script type="text/javascript">
-
-
+ 
             function CreateSubMenu() {
                 var SubMenu = [];
                 SubMenu.push('<div class="nav"><ul class="menu">');
@@ -189,6 +188,321 @@
                         });
             });
  
+        function Edit(id, description) {
+
+            ClearException();
+            ClearMessageControls();
+
+            // Define the Dialog and its properties.
+            $("#diveditdialog").dialog({
+                autoOpen: false,
+                modal: false,
+                title: "Edit Ticket [ " + description + " ] ",
+                resizable: true,
+                draggable: true,
+                closeOnEscape: true,
+                open: function () {
+                    try {
+                        retrieveTicket(id);
+                    }
+                    catch (err) {
+                        showErrorMessage(err);
+                        $("#diveditdialog").dialog("destroy");
+                        $("#diveditdialog").removeClass('displayblock');
+                        $("#diveditdialog").addClass('displaynone');
+                        $("#diveditdialog").hide();
+                    }
+                    $("#diveditdialog").removeClass('displaynone');
+                    $("#diveditdialog").addClass('displayblock');
+                    $("#diveditdialog").show();
+                },
+                close: function (event, ui) {
+                    $("#diveditdialog").dialog("destroy");
+                    $("#diveditdialog").removeClass('displayblock');
+                    $("#diveditdialog").addClass('displaynone');
+                    $("#diveditdialog").hide();
+                },
+                buttons: {
+                    "Update": function () {
+                        try {
+                            createValidationControls();
+                            UpdateAjax();
+                            window.setTimeout('removeValidationControls();', 10000);
+                            $("#diveditdialog").removeClass('displayblock');
+                            $("#diveditdialog").addClass('displaynone');
+                            $("#diveditdialog").hide();
+                            $("#diveditdialog").dialog("destroy");
+                        }
+                        catch (err) {
+                            showErrorMessage(err);
+                            $("#diveditdialog").dialog("destroy");
+                            $("#diveditdialog").removeClass('displayblock');
+                            $("#diveditdialog").addClass('displaynone');
+                            $("#diveditdialog").hide();
+                        }
+                    },
+                    "Close": function () {
+                        $("#diveditdialog").dialog("destroy");
+                        $("#diveditdialog").removeClass('displayblock');
+                        $("#diveditdialog").addClass('displaynone');
+                        $("#diveditdialog").hide();
+                        $(this).dialog('close');
+                    }
+                }
+            });
+
+            $("#diveditdialog").removeClass('displaynone');
+            $("#diveditdialog").addClass('displayblock');
+            $("#diveditdialog").show();
+            $("#diveditdialog").dialog("open");
+        }
+
+        function retrieveTicket(id) {
+
+            $.ajax({
+                type: "POST",
+                url: "ticket_details_master_view.aspx/retrieveTicket",
+                contentType: "application/json; charset=utf-8",
+                dataType: "text",
+                data: JSON.stringify({ "id": id }),
+                async: true,
+                cache: false,
+                success: function (response) {
+                    var jsonObject = JSON.parse(response);
+                    if (jsonObject.d.isSucess) {
+
+                        initializeControls(jsonObject.d.clientToken);
+
+                    } else {
+                        showErrorMessage(jsonObject.d.resultMessage);
+                    }
+                },
+                failure: function (response) {
+                    var jsonObject = JSON.parse(response);
+                    showErrorMessage(jsonObject.d);
+                }
+            });
+
+        }
+
+        function initializeControls(response) {
+            $('#txtticket_id_edit').val(response.ticket_id);
+            $('#dtpticket_request_date_edit').val(formatDateForControl(response.ticket_request_date));
+            $('#dtpticket_request_date_edit').focus();
+            $('#txtticket_request_by_edit').val(response.ticket_request_by);
+            $('#txtticket_session_id_edit').val(response.ticket_session_id);
+            $('#txtticket_name_edit').val(response.ticket_name);
+            $('#txtticket_passport_no_edit').val(response.ticket_passport_no);
+            $('#txtticket_from_edit').val(response.ticket_from);
+            $('#txtticket_to_edit').val(response.ticket_to);
+            $('#txtticket_via_edit').val(response.ticket_via);
+            $('#dtpticket_journey_date_edit').val(formatDateForControl(response.ticket_journey_date));
+            $('#cboticket_status_edit').val(response.ticket_status);
+            $('#cboticket_visa_status_edit').val(response.ticket_visa_status);
+            $('#txtticket_approved_by_edit').val(response.ticket_approved_by);
+            $('#dtpticket_approved_date_edit').val(formatDateForControl(response.ticket_approved_date));
+            $('#txtticket_approved_remarks_edit').val(response.ticket_approved_remarks);
+            $('#txtticket_booked_by_edit').val(response.ticket_booked_by);
+            $('#dtpticket_booked_at_edit').val(formatDateForControl(response.ticket_booked_at));
+            $('#txtticket_booked_remarks_edit').val(response.ticket_booked_remarks);
+            $('#txtticket_scan_file_name_edit').val(response.ticket_scan_file_name);
+        }
+
+        function UpdateAjax() {
+
+            errormsg = '';
+            ClearException();
+            ClearMessageControls();
+            errormsg += '<ul class="errorList">';
+            var error_free = true;
+
+            // Validate the entries 
+            var ticket_id = $('#txtticket_id').val();
+            var ticket_request_date = $('#dtpticket_request_date_edit').val();
+            var ticket_request_by = $('#txtticket_request_by_edit').val();
+            var ticket_session_id = $('#txtticket_session_id_edit').val();
+            var ticket_name = $('#txtticket_name_edit').val();
+            var ticket_passport_no = $('#txtticket_passport_no_edit').val();
+            var ticket_from = $('#txtticket_from_edit').val();
+            var ticket_to = $('#txtticket_to_edit').val();
+            var ticket_via = $('#txtticket_via_edit').val();
+            var ticket_journey_date = $('#dtpticket_journey_date_edit').val();
+            var ticket_status = $('#cboticket_status_edit').val();
+            var ticket_visa_status = $('#cboticket_visa_status_edit').val();
+            var ticket_approved_by = $('#txtticket_approved_by_edit').val();
+            var ticket_approved_date = $('#dtpticket_approved_date_edit').val();
+            var ticket_approved_remarks = $('#txtticket_approved_remarks_edit').val();
+            var ticket_booked_by = $('#txtticket_booked_by_edit').val();
+            var ticket_booked_at = $('#dtpticket_booked_at_edit').val();
+            var ticket_booked_remarks = $('#txtticket_booked_remarks_edit').val();
+            var ticket_scan_file_name = $('#txtticket_scan_file_name_edit').val();
+
+            if (ticket_request_date.length == 0) {
+                errormsg += '<li>' + " Request Date cannot be null " + '</li>';
+                error_free = false;
+            }
+            if (ticket_request_by.length == 0) {
+                errormsg += '<li>' + " Requested By cannot be null " + '</li>';
+                error_free = false;
+            }
+            if (ticket_session_id.length == 0) {
+                errormsg += '<li>' + " Session Id cannot be null " + '</li>';
+                error_free = false;
+            }
+            if (ticket_name.length.length == 0) {
+                errormsg += '<li>' + " Ticket Name cannot be null " + '</li>';
+                error_free = false;
+            }
+            if (ticket_passport_no.length == 0) {
+                errormsg += '<li>' + " Passport Number cannot be null " + '</li>';
+                error_free = false;
+            }
+            if (ticket_from.length.length == 0) {
+                errormsg += '<li>' + " From cannot be null " + '</li>';
+                error_free = false;
+            }
+            if (ticket_to.length == 0) {
+                errormsg += '<li>' + " To cannot be null " + '</li>';
+                error_free = false;
+            }
+            if (ticket_via.length == 0) {
+                errormsg += '<li>' + " via cannot be null " + '</li>';
+                error_free = false;
+            }
+            if (ticket_journey_date.length == 0) {
+                errormsg += '<li>' + " Journey Date cannot be null " + '</li>';
+                error_free = false;
+            }
+            if (ticket_status.length == 0) {
+                errormsg += '<li>' + " Status cannot be null " + '</li>';
+                error_free = false;
+            }
+            if (ticket_visa_status.length.length == 0) {
+                errormsg += '<li>' + " Visa Status cannot be null " + '</li>';
+                error_free = false;
+            }
+            if (ticket_approved_by.length == 0) {
+                errormsg += '<li>' + " Approved By cannot be null " + '</li>';
+                error_free = false;
+            }
+            if (ticket_approved_date.length.length == 0) {
+                errormsg += '<li>' + " Approval Date cannot be null " + '</li>';
+                error_free = false;
+            }
+            if (ticket_approved_remarks.length == 0) {
+                errormsg += '<li>' + " Approval Remarks cannot be null " + '</li>';
+                error_free = false;
+            }
+            if (ticket_booked_by.length == 0) {
+                errormsg += '<li>' + " Booked By cannot be null " + '</li>';
+                error_free = false;
+            }
+            if (ticket_booked_at.length == 0) {
+                errormsg += '<li>' + " Booked At cannot be null " + '</li>';
+                error_free = false;
+            }
+            if (ticket_booked_remarks.length == 0) {
+                errormsg += '<li>' + " Booked Remarks cannot be null " + '</li>';
+                error_free = false;
+            }
+            if (ticket_scan_file_name.length.length == 0) {
+                errormsg += '<li>' + " Scanned File cannot be null " + '</li>';
+                error_free = false;
+            }
+
+            if (!error_free) {
+                errormsg += "</ul>";
+                $("#errordisplaydivedit").html(errormsg);
+                $("#errordisplaydivedit").removeClass('displaynone');
+                $("#errordisplaydivedit").addClass('displayblock');
+                $("#errordisplaydivedit").show();
+                $('html, body').animate({ scrollTop: '0px' }, 500);
+                window.setTimeout('ClearMessageControls();', 20000);
+                return;
+            }
+            else {
+                ClearException();
+                ClearMessageControls();
+            }
+
+            // Build the Request Object
+            var dto = new Object();
+            dto.ticket_id = ticket_id;
+            dto.ticket_request_date = ticket_request_date;
+            dto.ticket_request_by = ticket_request_by;
+            dto.ticket_session_id = ticket_session_id;
+            dto.ticket_name = ticket_name;
+            dto.ticket_passport_no = ticket_passport_no;
+            dto.ticket_from = ticket_from;
+            dto.ticket_to = ticket_to;
+            dto.ticket_via = ticket_via;
+            dto.ticket_journey_date = ticket_journey_date;
+            dto.ticket_status = ticket_status;
+            dto.ticket_visa_status = ticket_visa_status;
+            dto.ticket_approved_by = ticket_approved_by;
+            dto.ticket_approved_date = ticket_approved_date;
+            dto.ticket_approved_remarks = ticket_approved_remarks;
+            dto.ticket_booked_by = ticket_booked_by;
+            dto.ticket_booked_at = ticket_booked_at;
+            dto.ticket_booked_remarks = ticket_booked_remarks;
+            dto.ticket_scan_file_name = ticket_scan_file_name;
+
+            $('#apiresult').html('processing...');
+            $("#diveditdialog").dialog("destroy");
+
+            UpdateAjaxNow(dto);
+        }
+
+        function UpdateAjaxNow(dto) {
+
+            $.ajax({
+                type: "POST",
+                url: "ticket_details_master_view.aspx/updateTicket",
+                contentType: "application/json; charset=utf-8",
+                dataType: "text",
+                data: JSON.stringify({
+                    "ticket_id": dto.ticket_id,
+                    "ticket_request_date": dto.ticket_request_date,
+                    "ticket_request_by": dto.ticket_request_by,
+                    "ticket_session_id": dto.ticket_session_id,
+                    "ticket_name": dto.ticket_name,
+                    "ticket_passport_no": dto.ticket_passport_no,
+                    "ticket_from": dto.ticket_from,
+                    "ticket_to": dto.ticket_to,
+                    "ticket_via": dto.ticket_via,
+                    "ticket_journey_date": dto.ticket_journey_date,
+                    "ticket_status": dto.ticket_status,
+                    "ticket_visa_status": dto.ticket_visa_status,
+                    "ticket_approved_by": dto.ticket_approved_by,
+                    "ticket_approved_date": dto.ticket_approved_date,
+                    "ticket_approved_remarks": dto.ticket_approved_remarks,
+                    "ticket_booked_by": dto.ticket_booked_by,
+                    "ticket_booked_at": dto.ticket_booked_at,
+                    "ticket_booked_remarks": dto.ticket_booked_remarks,
+                    "ticket_scan_file_name": dto.ticket_scan_file_name
+                }),
+                processData: false,
+                async: true,
+                cache: false,
+                success: function (response) {
+                    var jsonObject = JSON.parse(response);
+                    if (jsonObject.d.isSucess) {
+
+                        $('html, body').animate({ scrollTop: '0px' }, 500);
+                        showSuccessMessage(jsonObject.d.resultMessage);
+                        buildTable();
+
+                    } else {
+                        showErrorMessage(jsonObject.d.resultMessage);
+                    }
+                },
+                failure: function (response) {
+                    var jsonObject = JSON.parse(response);
+                    showErrorMessage(jsonObject.d);
+                }
+            });
+        }
+
             function Delete(id) {
                 // Define the Dialog and its properties.
                 $("#div-delete-dialog").dialog({

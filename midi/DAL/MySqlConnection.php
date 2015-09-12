@@ -1,6 +1,6 @@
 <?php
 
-$host = "192.168.0.101";
+$host = "localhost";
 $port = "3306";
 $db = "mididb";
 $user = "sa";

@@ -49,20 +49,64 @@
 
 
 
-
-        <div id="body">
-
-
-            <section class="content-wrapper main-content clear-fix">
-
-                <div id="error-display-div" class="displaynone"></div>
+<div id="body">
 
 
+		<section class="content-wrapper main-content clear-fix">
 
-            </section>
+			<div id="error-display-div" class="displaynone"></div>
 
 
-        </div>
+			<hgroup class="title">
+				<h2 class="page-title">Create Chart Of Account</h2>
+			</hgroup>
+
+			<div style="float: left; clear: both">
+				<input id="btnCreate" type="submit" value="Loading please wait..."
+					style="cursor: wait; background-color: grey; color: red;" disabled />
+				<input type="button" value="Back"
+					onclick="window.history.go(-1); return false;" />
+			</div>
+
+			<div id="apiResults" style="float: left; clear: both"></div>
+			<div id="successmessage" style="float: left; clear: both"></div>
+			<div id="errormessage" style="float: left; clear: both"></div>
+
+			<div style="float: left; clear: both">
+
+				<form action="javascript:void(0);">
+
+					<fieldset>
+						<legend>Create Chart Of Account</legend>
+
+						<div id="column-div" class="clearboth">
+
+							<article class="col1">
+								<div class="pad">
+
+									<div>
+										<label for="txtdescription">Description</label> <input
+											id="txtdescription" placeholder="Description" type="text"
+											autocomplete autofocus></input>
+									</div>
+
+								</div>
+							</article>
+
+						</div>
+
+					</fieldset>
+
+
+				</form>
+
+			</div>
+
+		</section>
+
+
+	</div>
+        
 
         <footer>
 
