@@ -4,7 +4,7 @@ $host = "localhost";
 $db = "mididb";
 $user = "sa";
 $pwd = "sa";
-$msg = "";
+$successmsg = "";
 
 try {
 
@@ -14,10 +14,10 @@ try {
     if ($conn) {
         return $conn;
     } else {
-        $msg = "connection failed...</br/>";
-        $msg .= error_get_last();
-        echo($msg);
-        return $msg;
+        $successmsg = "connection failed...</br/>";
+        $successmsg .= error_get_last();
+        echo($successmsg);
+        return $successmsg;
     }
 } catch (Exception $e) {
     $errormsg .= $e->getMessage();

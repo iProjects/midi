@@ -1,65 +1,108 @@
 
 <?php
 
+session_start();
+
 include ("../DAL/MySqlConnection.php");
 //include ("../DAL/SqlServerConnection.php");
 
+$email = "-1";
+$password = "-1";
+$errormsg = '';
+
 try {
 
-    if (isset($_POST['txtemail'])) {
-        $email = trim(stripslashes($_POST['txtemail']));
+    if (isset($_POST['txtusername'])) {
+        $email = trim(stripslashes($_POST['txtusername']));
     }
-    if (isset($_POST['txtpwd'])) {
-        $pwd = trim(stripslashes($_POST['txtpwd']));
+    if (isset($_POST['txtpassword'])) {
+        $password = trim(stripslashes($_POST['txtpassword']));
     }
 
-    $sql_select = "SELECT * FROM midiusers WHERE email = ? and pwd = ?";
+    $sql_select = "SELECT * FROM midi_users WHERE us_email = ?";
 
     $stmt = $conn->prepare($sql_select);
 
     $stmt->bindValue(1, $email);
-    $stmt->bindValue(2, $pwd);
 
     $stmt->execute();
 
     $founduser = $stmt->fetchAll();
 
-    if ($founduser) {
-        $_SESSION['loginflag'] = true;
+    if (count($founduser) > 0) {
 
-        $_SESSION['loggedinuser'] = $email;
+        $sql_select = "SELECT * FROM midi_users WHERE us_email = ? and us_pwd = ?";
 
-        setcookie("logincookie", $email, time() + (3600 * 2));
+        $stmt = $conn->prepare($sql_select);
 
-        $stmt->closeCursor();
+        $stmt->bindValue(1, $email);
+        $stmt->bindValue(2, $password);
 
-        CloseConnection();
+        $stmt->execute();
 
-        header("Location: ../Views/Home/Index.php");
+        $founduser = $stmt->fetchAll();
+
+        if (count($founduser) > 0) {
+
+            $_SESSION['loginflag'] = true;
+
+            $_SESSION['loggedinuser'] = $email;
+
+            setcookie("logincookie", $email, time() + (3600 * 2));
+
+            $stmt = null;
+            $conn = null;
+
+            //header("Location: ../Views/Account/ErrorUtil.php");
+            header("Location: ../Views/Home/Index.php");
+        } else {
+
+            unset($_SESSION["loginflag"]);
+
+            unset($_SESSION["loggedinuser"]);
+
+            unset($_SESSION["servererrormessage"]);
+
+            unset($_SESSION["serversucessmessage"]);
+
+            setcookie("logincookie", "", time() + (3600 * -1));
+
+            $stmt = null;
+            $conn = null;
+
+            $errormsg .= 'Incorrect Credentials. Check your Password.';
+            $errormsg .= error_get_last();
+
+            $_SESSION['servererrormessage'] = $errormsg;
+
+            header("Location: ../Views/Account/Login.php");
+        }
     } else {
+
         unset($_SESSION["loginflag"]);
 
         unset($_SESSION["loggedinuser"]);
 
-        session_destroy();
+        unset($_SESSION["servererrormessage"]);
 
-        $_SESSION = array();
+        unset($_SESSION["serversucessmessage"]);
 
         setcookie("logincookie", "", time() + (3600 * -1));
 
-        $stmt->closeCursor();
+        $stmt = null;
+        $conn = null;
 
-        CloseConnection();
+        $errormsg .= "User [ " . $email . " ] does not exist.";
+        $errormsg .= error_get_last();
 
-        $errormsg .= 'Incorrect Credentials. Check your Email and Password.';
-        $errormsg .= '<br/><input type="button" value="Back" onclick="window.history.go(-1); return false;" />';
+        $_SESSION['servererrormessage'] = $errormsg;
 
-        echo $errormsg;
-
-//        header("Location: ../Views/Account/Login.php");
+        header("Location: ../Views/Account/Login.php");
     }
 } catch (Exception $e) {
+
     $errormsg .= $e->getMessage();
+
     if ($e->getTraceAsString() != NULL) {
         $errormsg .= "<br/>" . $e->getTraceAsString();
     }
@@ -68,11 +111,16 @@ try {
         $errormsg .= "<br/>" . error_get_last();
     }
 
+    $stmt = null;
+    $conn = null;
+
     $errormsg .= '<br/><input type="button" value="Back" onclick="window.history.go(-1); return false;" />';
 
-    echo $errormsg;
+    $_SESSION['servererrormessage'] = $errormsg;
 
-//  header("Location: ../Views/Account/Login.php");
+    echo ($errormsg);
+
+    header("Location: ../Views/Account/ErrorUtil.php");
 }
 ?>
  

@@ -5,7 +5,10 @@ $port = "3306";
 $db = "mididb";
 $user = "sa";
 $pwd = "sa";
-$msg = "";
+$successmsg = "";
+$errormsg = "";
+$conn = '';
+$stmt = '';
 
 try {
 
@@ -13,12 +16,11 @@ try {
     $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
     if ($conn) {
-        return $conn;
+        //return $conn;
     } else {
-        $msg = "connection failed...</br/>";
-        $msg .= error_get_last();
-        echo($msg);
-        return $msg;
+        $errormsg .= "connection failed...</br/>";
+        $errormsg .= error_get_last();
+        echo ($errormsg);
     }
 } catch (Exception $e) {
     $errormsg .= $e->getMessage();
@@ -32,7 +34,11 @@ try {
 
     $errormsg .= '<br/><input type="button" value="Back" onclick="window.history.go(-1); return false;" />';
 
-    echo $errormsg;
+    $_SESSION['servererrormessage'] = $errormsg;
+
+    echo ($errormsg);
+
+    header("Location: ../Views/Account/error_message_view.php");
 }
 
 function CloseConnection() {
